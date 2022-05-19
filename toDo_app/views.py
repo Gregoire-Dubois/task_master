@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from django.core.exceptions import ValidationError
 from toDo_app.permissions import IsOwnerOrReadOnly
 from toDo_app.models import Tache, User
 from toDo_app.serializers import TacheSerializer, UserSerializer, TaskBydaySerializer
@@ -29,22 +30,23 @@ class TacheList(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
 
-    queryset = Tache.objects.all()
+    queryset = Tache.objects.filter(finishTask=False)
     serializer_class = TacheSerializer
 
     # oblige to be autentificated for creat task
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-        
 
     def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        finishTask = self.request.GET.get('finishTask')
+        if finishTask!=True:
+            return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
 
 #################################################################################################
 
@@ -87,7 +89,6 @@ class UsersList(mixins.ListModelMixin,
 # display details of one user
 
 class UserDetails(mixins.RetrieveModelMixin,
-                  #mixins.CreateModelMixin,
                   generics.GenericAPIView):
     
     queryset = User.objects.all()
@@ -105,13 +106,12 @@ class TacheForTodayList(mixins.ListModelMixin,
     
     epoch = '1970-1-1'
 
-    queryset = Tache.objects.all().filter(checkDate__range=[epoch, date.today()])
+    queryset = Tache.objects.all().filter(checkDate__range=[epoch, date.today()]).filter(finishTask=False)
     serializer_class = TacheSerializer
 
     # oblige to be autentificated for creat task
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
- 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -123,8 +123,9 @@ class TacheForTodayDetail(mixins.RetrieveModelMixin,
                             mixins.UpdateModelMixin, 
                             mixins.DestroyModelMixin, 
                             generics.GenericAPIView):
-    
+
     queryset = Tache.objects.all()
+
     serializer_class = TacheSerializer
     
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -133,7 +134,7 @@ class TacheForTodayDetail(mixins.RetrieveModelMixin,
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        return self.put(request, *args, **kwargs)
+        return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)

@@ -4,7 +4,7 @@ import datetime
 from django.db import migrations, models
 from django.utils.timezone import utc
 import toDo_app.models
-
+#validators=[toDo_app.models.validate_checkDate]
 
 class Migration(migrations.Migration):
 
@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tache',
             name='checkDate',
-            field=models.DateField(default=datetime.datetime(2022, 4, 29, 18, 7, 50, 346310, tzinfo=utc), validators=[toDo_app.models.validate_checkDate]),
+            field=models.DateField(default=datetime.datetime(2022, 4, 29, 18, 7, 50, 346310, tzinfo=utc)),
         ),
     ]

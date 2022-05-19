@@ -4,7 +4,7 @@ import datetime
 from django.db import migrations, models
 import toDo_app.models
 
-
+#validators=[toDo_app.models.finishTask] // validators=[toDo_app.models.validate_checkDate]
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tache',
             name='checkDate',
-            field=models.DateField(default=datetime.date(2022, 5, 8), validators=[toDo_app.models.validate_checkDate]),
+            field=models.DateField(default=datetime.date(2022, 5, 8)),
         ),
         migrations.AlterField(
             model_name='tache',
             name='finishTask',
-            field=models.BooleanField(blank=True, null=True, validators=[toDo_app.models.finishTask]),
+            field=models.BooleanField(blank=True, null=True )
         ),
     ]
