@@ -4,24 +4,23 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 
 #################################################################################################
-
+# serializer for list task not finish
 class TacheSerializer(serializers.ModelSerializer):
 
     owner = serializers.ReadOnlyField(source='owner.username')
-    # create only task for futur
-    #checkDate = serializers.DateField(validators=[validate_checkDate])
-    # Finish task
 
     class Meta:
         model = Tache
         fields = ['id','owner','number','taskResume','creationDate','checkDate','finishTask']
 
+    # create task is only for futur, but if user finish task a time befor today it's possible to close task
     def validate(self, data):
         if data['checkDate'] < date.today() and data['finishTask']==False:
             raise serializers.ValidationError("La relance ne peut être antérieure à aujourd'ui")
         return data
-#################################################################################################
 
+#################################################################################################
+# serializer for list tasks for today an task delayed
 class TaskBydaySerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
 
@@ -31,11 +30,11 @@ class TaskBydaySerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data['checkDate'] < date.today() and data['finishTask']==False:
-            raise serializers.ValidationError("La relance ne peut être antérieure à aujourd'ui")
+            raise serializers.ValidationError("La relance ne peut être antérieure à aujourd'hui")
         return data
 
 #################################################################################################
-
+# serializer for list users
 class UserSerializer(serializers.ModelSerializer):
     taches = serializers.PrimaryKeyRelatedField(many=True, queryset=Tache.objects.all())
 

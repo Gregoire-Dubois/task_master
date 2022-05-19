@@ -20,7 +20,7 @@ def api_root(request, format=None):
         "liste des utilisateurs": reverse('users-list', request=request, format=format),
         "Liste des taches": reverse('tasks-list', request=request, format=format),
         "Taches à faire aujourd'hui": reverse('tasks-today', request=request, format=format),
-        #"Liste des taches terminées": reverse('tasks-finished', request=request, format=format),
+        "Taches terminées": reverse('tasks-finish', request=request, format=format)
     })
 
 #################################################################################################
@@ -47,9 +47,41 @@ class TacheList(mixins.ListModelMixin,
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
+#################################################################################################
+# List of task finished
+class TacheFinishList(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    queryset = Tache.objects.filter(finishTask=True)
+    serializer_class = TacheSerializer
+
+    # oblige to be autentificated for creat task
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 #################################################################################################
+# display details of one task finish
 
+class TacheFinishDetail(mixins.RetrieveModelMixin,
+                  mixins.UpdateModelMixin,
+                  mixins.DestroyModelMixin,
+                  generics.GenericAPIView):
+    queryset = Tache.objects.all()
+    serializer_class = TacheSerializer
+
+    # restriction for read only task if is identificate and not the owner
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+#################################################################################################
 # display details of one task
 
 class TacheDetail(mixins.RetrieveModelMixin,
