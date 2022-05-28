@@ -35,6 +35,10 @@ class TacheList(mixins.ListModelMixin,
     # oblige to be autentificated for creat task
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def get_queryset(self):
+        user = self.request.user
+        return Tache.objects.filter(owner=user)
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
@@ -55,6 +59,11 @@ class TacheFinishList(mixins.ListModelMixin,
 
     queryset = Tache.objects.filter(finishTask=True)
     serializer_class = TacheSerializer
+
+    #display only task's user
+    def get_queryset(self):
+        user = self.request.user
+        return Tache.objects.filter(owner=user)
 
     # oblige to be autentificated for creat task
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -137,9 +146,10 @@ class TasksVisulisator(mixins.ListModelMixin,
 
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    #queryset = Tache.objects.all()
+    queryset = Tache.objects.all()
     serializer_class = TaskCheckerSerializer
 
+    #display only task's user
     def get_queryset(self):
         user = self.request.user
         return Tache.objects.filter(owner=user)
@@ -180,6 +190,11 @@ class TacheForTodayList(mixins.ListModelMixin,
 
     # oblige to be autentificated for create task
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    #display only task's user
+    def get_queryset(self):
+        user = self.request.user
+        return Tache.objects.filter(owner=user)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
