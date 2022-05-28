@@ -1,15 +1,12 @@
-from datetime import date, datetime
-from django.core.exceptions import ValidationError
+from datetime import date
+
 from toDo_app.permissions import IsOwnerOrReadOnly
 from toDo_app.models import Tache, User
-from toDo_app.serializers import TacheSerializer, UserSerializer, TaskBydaySerializer
-from rest_framework import mixins
-from rest_framework import generics
-from rest_framework import permissions
+from toDo_app.serializers import TacheSerializer, UserSerializer, TaskCheckerSerializer
+from rest_framework import mixins, generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-
 
 #################################################################################################
 
@@ -20,7 +17,9 @@ def api_root(request, format=None):
         "liste des utilisateurs": reverse('users-list', request=request, format=format),
         "Liste des taches": reverse('tasks-list', request=request, format=format),
         "Taches à faire aujourd'hui": reverse('tasks-today', request=request, format=format),
-        "Taches terminées": reverse('tasks-finish', request=request, format=format)
+        "Taches terminées": reverse('tasks-finish', request=request, format=format),
+        "Visualisation des taches sur un jour": reverse('tasks-visualisator', request=request, format=format)
+
     })
 
 #################################################################################################
@@ -48,6 +47,7 @@ class TacheList(mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 #################################################################################################
+
 # List of task finished
 class TacheFinishList(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
@@ -66,6 +66,7 @@ class TacheFinishList(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
 #################################################################################################
+
 # display details of one task finish
 
 class TacheFinishDetail(mixins.RetrieveModelMixin,
@@ -82,6 +83,7 @@ class TacheFinishDetail(mixins.RetrieveModelMixin,
         return self.retrieve(request, *args, **kwargs)
 
 #################################################################################################
+
 # display details of one task
 
 class TacheDetail(mixins.RetrieveModelMixin,
@@ -104,8 +106,8 @@ class TacheDetail(mixins.RetrieveModelMixin,
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
-
 #################################################################################################
+
 # display list of User
 
 class UsersList(mixins.ListModelMixin,
@@ -118,6 +120,41 @@ class UsersList(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
 #################################################################################################
+
+# display list and number tasks on D day
+
+"""
+Créer une view qui : 
+- retourne la liste des taches enrgistrées sur 1 jour J
+- retourne le nombre de taches dans la liste sur le jour J 
+- permet de modifier le jour J 
+"""
+
+class TasksVisulisator(mixins.ListModelMixin,
+                       mixins.CreateModelMixin,
+                       generics.GenericAPIView):
+
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    #queryset = Tache.objects.all()
+    serializer_class = TaskCheckerSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Tache.objects.filter(owner=user)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+#################################################################################################
+
 # display details of one user
 
 class UserDetails(mixins.RetrieveModelMixin,
@@ -141,7 +178,7 @@ class TacheForTodayList(mixins.ListModelMixin,
     queryset = Tache.objects.all().filter(checkDate__range=[epoch, date.today()]).filter(finishTask=False)
     serializer_class = TacheSerializer
 
-    # oblige to be autentificated for creat task
+    # oblige to be autentificated for create task
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, *args, **kwargs):

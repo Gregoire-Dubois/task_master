@@ -16,7 +16,7 @@ class TacheSerializer(serializers.ModelSerializer):
     # create task is only for futur, but if user finish task a time befor today it's possible to close task
     def validate(self, data):
         if data['checkDate'] < date.today() and data['finishTask']==False:
-            raise serializers.ValidationError("La relance ne peut être antérieure à aujourd'ui")
+            raise serializers.ValidationError("La relance ne peut être antérieure à aujourd'hui")
         return data
 
 #################################################################################################
@@ -43,3 +43,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'taches']
 
 #################################################################################################
+
+# serializer for check task in one day
+
+class TaskCheckerSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
+    class Meta:
+        model = Tache
+        fields=['id','owner','number', 'taskResume','creationDate','checkDate','finishTask']
