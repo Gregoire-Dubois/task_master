@@ -36,7 +36,6 @@ class TacheList(LoginRequiredMixin, mixins.ListModelMixin,
     serializer_class = TacheSerializer
 
     login_url = '/api-auth/login/'
-    redirect_field_name = 'redirect_to'
 
     # oblige to be autentificated for create task
 
@@ -67,7 +66,6 @@ class TacheFinishList(LoginRequiredMixin, mixins.ListModelMixin,
     serializer_class = TacheSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     login_url = '/api-auth/login/'
-    redirect_field_name = 'redirect_to'
 
     #display only task's user
     def get_queryset(self):
@@ -93,7 +91,6 @@ class TacheFinishDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
     queryset = Tache.objects.all()
     serializer_class = TacheSerializer
     login_url = '/api-auth/login/'
-    redirect_field_name = 'redirect_to'
 
     # restriction for read only task if is identificate and not the owner
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
@@ -113,8 +110,7 @@ class TacheDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
     queryset = Tache.objects.all()
     serializer_class = TacheSerializer
     login_url = '/api-auth/login/'
-    redirect_field_name = 'redirect_to'
-    
+
     #restriction for read only task if is identificate and not the owner
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
 
@@ -137,7 +133,6 @@ class UsersList(LoginRequiredMixin, mixins.ListModelMixin,
     queryset = User.objects.all()
     serializer_class = UserSerializer
     login_url = '/api-auth/login/'
-    redirect_field_name = 'redirect_to'
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -160,7 +155,6 @@ class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = TaskCheckerSerializer
     login_url = '/api-auth/login/'
-    redirect_field_name = 'redirect_to'
 
     #display only task's user
     def get_queryset(self):
@@ -186,7 +180,6 @@ class UserDetails(LoginRequiredMixin, mixins.RetrieveModelMixin,
     queryset = User.objects.all()
     serializer_class = UserSerializer
     login_url = '/api-auth/login/'
-    redirect_field_name = 'redirect_to'
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -199,7 +192,6 @@ class TacheForTodayList(LoginRequiredMixin, mixins.ListModelMixin,
                   generics.GenericAPIView):
 
     login_url = '/api-auth/login/'
-    redirect_field_name = 'redirect_to'
 
     epoch = '1970-1-1'
 
@@ -230,8 +222,8 @@ class TacheForTodayDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
     queryset = Tache.objects.all()
     serializer_class = TacheSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
     login_url = '/api-auth/login/'
-    redirect_field_name = 'redirect_to'
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
