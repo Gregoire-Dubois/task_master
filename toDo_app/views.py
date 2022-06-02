@@ -9,6 +9,7 @@ from rest_framework import mixins, generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework import filters
 
 #################################################################################################
 
@@ -34,6 +35,9 @@ class TacheList(LoginRequiredMixin, mixins.ListModelMixin,
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     queryset = Tache.objects.filter(finishTask=False)
     serializer_class = TacheSerializer
+
+    filter_backends = [filters.SearchFilter]
+    search_fields=['number', 'taskResume','creationDate','checkDate','finishTask']
 
     #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
@@ -66,6 +70,8 @@ class TacheFinishList(LoginRequiredMixin, mixins.ListModelMixin,
 
     serializer_class = TacheSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [filters.SearchFilter]
+    search_fields=['number', 'taskResume','creationDate','checkDate','finishTask']
 
     #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
@@ -139,6 +145,8 @@ class UsersList(LoginRequiredMixin, mixins.ListModelMixin,
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields=['owner']
 
     #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
@@ -163,6 +171,8 @@ class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
 
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = TaskCheckerSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields=['checkDate']
 
     #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
@@ -212,8 +222,6 @@ class TacheForTodayList(LoginRequiredMixin, mixins.ListModelMixin,
     login_url = '/api-auth/login/'
 
     epoch = '1970-1-1'
-
-
 
     #display only task's user
     def get_queryset(self):
