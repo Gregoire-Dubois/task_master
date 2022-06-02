@@ -35,6 +35,7 @@ class TacheList(LoginRequiredMixin, mixins.ListModelMixin,
     queryset = Tache.objects.filter(finishTask=False)
     serializer_class = TacheSerializer
 
+    #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
 
     # oblige to be autentificated for create task
@@ -65,6 +66,8 @@ class TacheFinishList(LoginRequiredMixin, mixins.ListModelMixin,
 
     serializer_class = TacheSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
 
     #display only task's user
@@ -90,6 +93,8 @@ class TacheFinishDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
                   generics.GenericAPIView):
     queryset = Tache.objects.all()
     serializer_class = TacheSerializer
+
+    #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
 
     # restriction for read only task if is identificate and not the owner
@@ -109,6 +114,8 @@ class TacheDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
 
     queryset = Tache.objects.all()
     serializer_class = TacheSerializer
+
+    #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
 
     #restriction for read only task if is identificate and not the owner
@@ -132,6 +139,8 @@ class UsersList(LoginRequiredMixin, mixins.ListModelMixin,
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
 
     def get(self, request, *args, **kwargs):
@@ -154,6 +163,8 @@ class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
 
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = TaskCheckerSerializer
+
+    #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
 
     #display only task's user
@@ -191,15 +202,18 @@ class UserDetails(LoginRequiredMixin, mixins.RetrieveModelMixin,
 class TacheForTodayList(LoginRequiredMixin, mixins.ListModelMixin,
                   generics.GenericAPIView):
 
-    login_url = '/api-auth/login/'
-
-    epoch = '1970-1-1'
-
     #queryset = Tache.objects.all().filter(checkDate__range=[epoch, date.today()]).filter(finishTask=False)
     serializer_class = TacheSerializer
 
     # oblige to be autentificated for create task
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    #Anonymous user redirect to login page
+    login_url = '/api-auth/login/'
+
+    epoch = '1970-1-1'
+
+
 
     #display only task's user
     def get_queryset(self):
