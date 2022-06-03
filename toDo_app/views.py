@@ -33,7 +33,7 @@ class TacheList(LoginRequiredMixin, mixins.ListModelMixin,
                   generics.GenericAPIView,):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     authentication_classes = [SessionAuthentication, BasicAuthentication]
-    queryset = Tache.objects.filter(finishTask=False)
+    #queryset = Tache.objects.filter(finishTask=False)
     serializer_class = TacheSerializer
 
     filter_backends = [filters.SearchFilter]
@@ -42,12 +42,9 @@ class TacheList(LoginRequiredMixin, mixins.ListModelMixin,
     #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
 
-    # oblige to be autentificated for create task
-
-
     def get_queryset(self):
         user = self.request.user
-        return Tache.objects.filter(owner=user)
+        return Tache.objects.filter(owner=user).filter(finishTask=False)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
