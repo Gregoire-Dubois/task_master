@@ -3,6 +3,6 @@ backports.zoneinfo==0.2.1
 Django==4.0.4
 sqlparse==0.4.2
 djangorestframework==3.13.1
-pygemnts==2.11.2
+#pygemnts==2.11.2
 djangorestframework-fine-permissions==0.9.0
-django-filtre 21.1
+django-filter==21.1
