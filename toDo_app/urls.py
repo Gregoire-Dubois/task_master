@@ -12,10 +12,7 @@ urlpatterns = format_suffix_patterns([
                     name='tasks-finish'),
     path('finish/<int:pk>/', views.TacheFinishDetail.as_view(),
                     name='task-finish-detail'),
-    path('users/', views.UsersList.as_view(), 
-                    name='users-list'),
-    path('users/<int:pk>/', views.UserDetails.as_view(), 
-                    name='user-details'),
+
     path('tasks/for_today/', views.TacheForTodayList.as_view(), 
                     name='tasks-today'),
     path('tasks/for_today/<int:pk>/', views.TacheForTodayDetail.as_view(), 
@@ -24,6 +21,6 @@ urlpatterns = format_suffix_patterns([
     path('tasksVisualisator/', views.TasksVisulisator.as_view(),
          name='tasks-visualisator'),
 
+
+
 ])
-
-

@@ -17,7 +17,6 @@ from rest_framework import filters
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        "liste des utilisateurs": reverse('users-list', request=request, format=format),
         "Liste des taches": reverse('tasks-list', request=request, format=format),
         "Taches à faire aujourd'hui": reverse('tasks-today', request=request, format=format),
         "Taches terminées": reverse('tasks-finish', request=request, format=format),
@@ -130,37 +129,10 @@ class TacheDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
-#################################################################################################
-
-# display list of User
-
-class UsersList(LoginRequiredMixin, mixins.ListModelMixin,
-                generics.GenericAPIView):
-
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields=['owner']
-
-    #Anonymous user redirect to login page
-    login_url = '/api-auth/login/'
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
 
 #################################################################################################
 
 # display list and number tasks on D day
-
-"""
-Créer une view qui : 
-- retourne la liste des taches enrgistrées sur 1 jour J
-- retourne le nombre de taches dans la liste sur le jour J 
-- permet de modifier le jour J 
-"""
 
 class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
                        mixins.CreateModelMixin,
@@ -187,20 +159,6 @@ class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
-
-#################################################################################################
-
-# display details of one user
-
-class UserDetails(LoginRequiredMixin, mixins.RetrieveModelMixin,
-                  generics.GenericAPIView):
-    
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    login_url = '/api-auth/login/'
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
 
 #################################################################################################
 
@@ -249,6 +207,3 @@ class TacheForTodayDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.delete(request, *args, **kwargs)
