@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = format_suffix_patterns([
     path('', views.api_root),
-    path('tasks/', views.TacheList.as_view(), 
+    path('tasks/', views.TacheList.as_view(),
                     name='tasks-list'),
     path('tasks/<int:pk>/', views.TacheDetail.as_view(), 
                     name='task-details'),
@@ -12,6 +12,9 @@ urlpatterns = format_suffix_patterns([
                     name='tasks-finish'),
     path('finish/<int:pk>/', views.TacheFinishDetail.as_view(),
                     name='task-finish-detail'),
+
+    path('tasks/<int:pk>/', views.TacheList.as_view(),
+                    name='tasks-list'),
 
     path('tasks/for_today/', views.TacheForTodayList.as_view(), 
                     name='tasks-today'),
@@ -21,6 +24,7 @@ urlpatterns = format_suffix_patterns([
     path('tasksVisualisator/', views.TasksVisulisator.as_view(),
          name='tasks-visualisator'),
 
+#jouter les liens sur task visualisator
 
 
 ])

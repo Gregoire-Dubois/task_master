@@ -3,7 +3,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.permissions import IsAuthenticated
 from toDo_app.permissions import IsOwnerOrReadOnly
-from toDo_app.models import Tache, User
+from toDo_app.models import Tache #User
 from toDo_app.serializers import TacheSerializer, UserSerializer, TaskCheckerSerializer
 from rest_framework import mixins, generics, permissions
 from rest_framework.decorators import api_view
@@ -30,10 +30,13 @@ def api_root(request, format=None):
 class TacheList(LoginRequiredMixin, mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView,):
+
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     authentication_classes = [SessionAuthentication, BasicAuthentication]
+
     #queryset = Tache.objects.filter(finishTask=False)
     serializer_class = TacheSerializer
+
 
     filter_backends = [filters.SearchFilter]
     search_fields=['number', 'taskResume','creationDate','checkDate','finishTask']
@@ -67,6 +70,7 @@ class TacheFinishList(LoginRequiredMixin, mixins.ListModelMixin,
     serializer_class = TacheSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [filters.SearchFilter]
+
     search_fields=['number', 'taskResume','creationDate','checkDate','finishTask']
 
     #Anonymous user redirect to login page
@@ -149,7 +153,7 @@ class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
     #display only task's user
     def get_queryset(self):
         user = self.request.user
-        return Tache.objects.filter(owner=user)
+        return Tache.objects.filter(owner=user).filter(finishTask=False)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
