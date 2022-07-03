@@ -161,6 +161,29 @@ class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
 
 #################################################################################################
+# display detail of task with task validator
+
+class TasksVisulisatorDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+
+    queryset = Tache.objects.all()
+    serializer_class = TacheSerializer
+
+    #Anonymous user redirect to login page
+    login_url = '/api-auth/login/'
+
+    #restriction for read only task if is identificate and not the owner
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+#################################################################################################
 
 # display all tasks for this day
 
