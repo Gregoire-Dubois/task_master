@@ -147,18 +147,25 @@ class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
     login_url = '/api-auth/login/'
 
     #display only task's user
+    #def get_queryset(self):
+    #    user = self.request.user
+    #    return Tache.objects.filter(owner=user)
+
     def get_queryset(self):
         user = self.request.user
-        return Tache.objects.filter(owner=user)
+        return Tache.objects.filter(owner=user).filter(finishTask=False)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
     def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        finishTask = self.request.GET.get('finishTask')
+        if finishTask!=True:
+            return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
 
 #################################################################################################
 # display detail of task with task validator
@@ -182,6 +189,7 @@ class TasksVisulisatorDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
 
 #################################################################################################
 
@@ -210,6 +218,8 @@ class TacheForTodayList(LoginRequiredMixin, mixins.ListModelMixin,
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
+
+
 #################################################################################################
 
 # display details of one task for today
@@ -225,8 +235,11 @@ class TacheForTodayDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
 
     login_url = '/api-auth/login/'
 
+
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+#################################################################################################
