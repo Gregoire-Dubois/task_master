@@ -10,6 +10,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import filters
+from django.shortcuts import render
+from django.http import HttpResponse
+
 
 #################################################################################################
 
@@ -243,3 +246,8 @@ class TacheForTodayDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
         return self.update(request, *args, **kwargs)
 
 #################################################################################################
+#teste de page html
+
+def index(request):
+    return render(request,'toDo_app/index.html')
+#
