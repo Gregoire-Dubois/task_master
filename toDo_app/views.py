@@ -246,8 +246,3 @@ class TacheForTodayDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
         return self.update(request, *args, **kwargs)
 
 #################################################################################################
-#teste de page html
-
-def index(request):
-    return render(request,'toDo_app/index.html')
-#

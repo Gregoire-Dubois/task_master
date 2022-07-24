@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
@@ -24,7 +24,5 @@ urlpatterns = format_suffix_patterns([
     path('tasksVisualisator/<int:pk>/', views.TasksVisulisatorDetail.as_view(),
          name='taskDetail-visualisator'),
 
-    path('index/', views.index,
-         name="index"),
 
 ])

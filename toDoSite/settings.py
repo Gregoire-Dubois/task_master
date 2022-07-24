@@ -52,9 +52,17 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
 
+    'drf_yasg',
+
     'toDo_app',
 ]
 
+
+SWAGGER_SETTINGS = {
+    'VALIDATOR_URL': 'http://localhost:8189',
+    'LOGIN_URL' : '/admin/login/',
+    'LOGOUT_URL' : '/admin/logout/',
+}
 #path to templates
 
 TEMPLATE_DIRS = (
