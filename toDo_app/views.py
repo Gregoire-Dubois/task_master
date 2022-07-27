@@ -2,6 +2,8 @@ from datetime import date
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.permissions import IsAuthenticated
+
+from toDo_app import serializers
 from toDo_app.permissions import IsOwnerOrReadOnly
 from toDo_app.models import Tache, User
 from toDo_app.serializers import TacheSerializer, UserSerializer, TaskCheckerSerializer
@@ -10,8 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import filters
-from django.shortcuts import render
-from django.http import HttpResponse
+
 
 
 #################################################################################################

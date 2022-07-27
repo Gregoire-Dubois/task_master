@@ -14,10 +14,10 @@ class TacheSerializer(serializers.ModelSerializer):
         fields = ['id','owner','number','taskResume','creationDate','checkDate','finishTask']
 
     # create task is only for futur, but if user finish task a time befor today it's possible to close task
-    def validate(self, data):
-        if data['checkDate'] < date.today() and data['finishTask']==False:
-            raise serializers.ValidationError("La relance ne peut être antérieure à aujourd'hui")
-        return data
+        def validate(self, data):
+            if data['checkDate'] < date.today() and data['finishTask'] == False:
+                raise serializers.ValidationError("La relance ne peut être antérieure à aujourd'hui")
+            return data
 
 #################################################################################################
 # serializer for list tasks for today an task delayed
@@ -28,10 +28,6 @@ class TaskBydaySerializer(serializers.ModelSerializer):
         model = Tache
         fields=['id','owner','number', 'taskResume','creationDate','checkDate','finishTask']
 
-    def validate(self, data):
-        if data['checkDate'] < date.today() and data['finishTask']==False:
-            raise serializers.ValidationError("La relance ne peut être antérieure à aujourd'hui")
-        return data
 
 #################################################################################################
 # serializer for list users

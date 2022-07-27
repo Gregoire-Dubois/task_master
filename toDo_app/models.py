@@ -1,10 +1,13 @@
-#import sqlite3
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
-#from pygments.formatters.html import HtmlFormatter
 from datetime import date
 
 #################################################################################################
+def validate_checkDate(value):
+    if value < date.today():
+        raise ValidationError("La relance ne peut être antérieur à aujoud'hui")
+    return value
 
 #creation class for task
 class Tache(models.Model):
@@ -13,7 +16,7 @@ class Tache(models.Model):
     number = models.CharField(max_length=15, blank=False)
     taskResume = models.CharField(max_length=200, blank=False)
     creationDate = models.DateField(auto_now=date.today(), blank=False)
-    checkDate = models.DateField(blank=False, default=date.today())
+    checkDate = models.DateField(blank=False, null=False, default=date.today(), validators=[validate_checkDate])
     finishTask = models.BooleanField(blank=True, null=True)
 
     def __str__(self):
