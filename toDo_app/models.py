@@ -4,6 +4,8 @@ from django.db import models
 from datetime import date
 
 #################################################################################################
+# create task is only for futur, but if user finish task a time befor today it's possible to close task
+
 def validate_checkDate(value):
     if value < date.today():
         raise ValidationError("La relance ne peut être antérieur à aujoud'hui")

@@ -1,4 +1,6 @@
-from django.urls import path, re_path
+from django.template.defaulttags import url
+from django.urls import path, re_path, include
+from django.views.generic import TemplateView
 from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
@@ -23,5 +25,7 @@ urlpatterns = format_suffix_patterns([
 
     path('tasksVisualisator/<int:pk>/', views.TasksVisulisatorDetail.as_view(),
          name='taskDetail-visualisator'),
+
+
 
 ])

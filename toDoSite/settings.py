@@ -28,6 +28,8 @@ SECRET_KEY = 'ot&ukjtjre1ty4x&7e%_q5)@&^ba1c3=wt!m$407$8a1g0*up%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#to logout with GET method
+ACCOUNT_LOGOUT_ON_GET = True
 
 ALLOWED_HOSTS = []
 
@@ -56,7 +58,6 @@ INSTALLED_APPS = [
 
     'toDo_app',
 ]
-
 
 SWAGGER_SETTINGS = {
     'VALIDATOR_URL': 'http://localhost:8189',
