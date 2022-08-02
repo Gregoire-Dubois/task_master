@@ -22,7 +22,9 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from dj_rest_auth.views import PasswordResetView, PasswordResetConfirmView
+from dj_rest_auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, UserDetailsView
+
+from dj_rest_auth.registration.views import VerifyEmailView
 
 from django.views.generic import TemplateView
 
@@ -53,7 +55,14 @@ urlpatterns = [
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
 
+
     path('dj-rest-auth/password/reset/', PasswordResetView.as_view(), name='reset_password'),
-    path('dj-rest-auth/password/reset-confirm/<uidb64>/<token>/',PasswordResetConfirmView.as_view(), name = 'password_reset_confirm'),
+    path('dj-rest-auth/password/reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name = 'password_reset_confirm'),
+
+    path('dj-rest-auth/password/change/', PasswordChangeView.as_view(), name='change_password'),
+
+    path('/dj-rest-auth/user/', UserDetailsView.as_view(), name='user_detail')
+
+    #a faire : path('/dj-rest-auth/token/verify/',)
 
 ]

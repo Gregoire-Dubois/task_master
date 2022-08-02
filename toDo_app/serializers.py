@@ -44,3 +44,6 @@ class TaskCheckerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tache
         fields=['id','owner','number', 'taskResume','creationDate','checkDate','finishTask']
+
+#################################################################################################
+

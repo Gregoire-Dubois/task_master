@@ -1,4 +1,6 @@
 from datetime import date
+
+from django.shortcuts import redirect
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.permissions import IsAuthenticated
@@ -12,7 +14,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import filters
-
 
 
 #################################################################################################
@@ -150,11 +151,6 @@ class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
     #Anonymous user redirect to login page
     login_url = '/api-auth/login/'
 
-    #display only task's user
-    #def get_queryset(self):
-    #    user = self.request.user
-    #    return Tache.objects.filter(owner=user)
-
     def get_queryset(self):
         user = self.request.user
         return Tache.objects.filter(owner=user).filter(finishTask=False)
@@ -247,3 +243,4 @@ class TacheForTodayDetail(LoginRequiredMixin, mixins.RetrieveModelMixin,
         return self.update(request, *args, **kwargs)
 
 #################################################################################################
+

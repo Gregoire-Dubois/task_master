@@ -59,11 +59,20 @@ INSTALLED_APPS = [
     'toDo_app',
 ]
 
+
+
+#to use old_password.
+OLD_PASSWORD_FIELD_ENABLED = True
+
+#to keep the user logged in after password change
+LOGOUT_ON_PASSWORD_CHANGE = False
+
 SWAGGER_SETTINGS = {
     'VALIDATOR_URL': 'http://localhost:8189',
     'LOGIN_URL' : '/admin/login/',
     'LOGOUT_URL' : '/admin/logout/',
 }
+
 #path to templates
 
 TEMPLATE_DIRS = (
@@ -167,3 +176,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static'),
+]
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+MEDIA_URL = '/media/'
