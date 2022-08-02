@@ -59,8 +59,6 @@ INSTALLED_APPS = [
     'toDo_app',
 ]
 
-
-
 #to use old_password.
 OLD_PASSWORD_FIELD_ENABLED = True
 
