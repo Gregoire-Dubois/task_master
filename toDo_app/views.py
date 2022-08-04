@@ -159,9 +159,11 @@ class TasksVisulisator(LoginRequiredMixin, mixins.ListModelMixin,
         serializer.save(owner=self.request.user)
 
     def get(self, request, *args, **kwargs):
+
         finishTask = self.request.GET.get('finishTask')
         if finishTask!=True:
             return self.list(request, *args, **kwargs)
+
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
