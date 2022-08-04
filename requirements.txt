@@ -9,3 +9,4 @@ django-filter==21.1
 dj-rest-auth
 dj-rest-auth[with_social]
 drf-yasg
+djangorestframework-simplejwt

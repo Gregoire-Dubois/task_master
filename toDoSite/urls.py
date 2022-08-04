@@ -25,6 +25,11 @@ from drf_yasg import openapi
 from dj_rest_auth.views import PasswordResetView, PasswordResetConfirmView, PasswordChangeView, UserDetailsView
 from dj_rest_auth.registration.views import VerifyEmailView
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView, TokenVerifyView,
+)
+
 #from django.views.generic import TemplateView
 
 schema_view = get_schema_view(
@@ -39,6 +44,7 @@ schema_view = get_schema_view(
    public=True,
    permission_classes=[permissions.AllowAny],
 )
+
 
 urlpatterns = [
     # documentation
@@ -69,8 +75,11 @@ urlpatterns = [
     path('dj-rest-auth/password/change/', PasswordChangeView.as_view(), name='change_password'),
 
     # user details
-    path('/dj-rest-auth/user/', UserDetailsView.as_view(), name='user_detail')
+    path('/dj-rest-auth/user/', UserDetailsView.as_view(), name='user_detail'),
 
-    # to do : path('/dj-rest-auth/token/verify/', )
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('dj-rest-auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
 ]
