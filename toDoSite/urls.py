@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.template.defaulttags import url
 from django.urls import include, path, re_path
 from dj_rest_auth.registration.views import ResendEmailVerificationView, VerifyEmailView
+from django.views.generic import TemplateView
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -64,6 +65,9 @@ urlpatterns = [
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
 
+
+    path(r'^account-confirm-email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(), name='account_confirm_email'),# travail
+
     path('dj-rest-auth/registration/resend-email/', ResendEmailVerificationView.as_view(), name='account_email_verification_sent_resent'),
 
     # reset password
@@ -82,3 +86,13 @@ urlpatterns = [
     path('dj-rest-auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
 ]
+"""
+Si vous définissez la vérification de l'adresse e-mail du compte comme obligatoire, vous devez ajouter le 
+VerifyEmailView avec le nom utilisé . Vous devez importer la vue : . Ajoutez ensuite l'url avec le nom correspondant 
+: à la liste des urlpatterns.
+
+from dj_rest_auth.registration.views import VerifyEmailViewpath
+
+('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent')
+
+"""
