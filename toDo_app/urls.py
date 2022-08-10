@@ -26,6 +26,4 @@ urlpatterns = format_suffix_patterns([
     path('tasksVisualisator/<int:pk>/', views.TasksVisulisatorDetail.as_view(),
          name='taskDetail-visualisator'),
 
-
-
 ])

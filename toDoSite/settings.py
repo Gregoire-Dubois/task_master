@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from django.core.mail import send_mail
+import json
+
+with open("/Users/gregoiredubois/PycharmProjects/pythonProject/config/config.json") as conf:
+    config = json.load(conf)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,12 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # configure auto fields
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ot&ukjtjre1ty4x&7e%_q5)@&^ba1c3=wt!m$407$8a1g0*up%'
+#SECRET_KEY = 'ot&ukjtjre1ty4x&7e%_q5)@&^ba1c3=wt!m$407$8a1g0*up%'
+SECRET_KEY = config['SECRET_KEY']
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -58,7 +63,7 @@ INSTALLED_APPS = [
 
     'drf_yasg',
 
-    'toDo_app',
+    'toDo_app'
 ]
 
 #to use old_password.
@@ -92,7 +97,7 @@ REST_FRAMEWORK = {
 
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10   
+    'PAGE_SIZE': 10
 }
 
 MIDDLEWARE = [
@@ -190,6 +195,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 MEDIA_URL = '/media/'
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
 
 REST_USE_JWT = True
