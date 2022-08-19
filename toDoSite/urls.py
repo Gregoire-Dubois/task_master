@@ -64,13 +64,13 @@ urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
-    path(r'^account-confirm-email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(), name='account_confirm_email'),
+    re_path(r'^account-confirm-email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(), name='account_confirm_email'),
 
     path('dj-rest-auth/registration/resend-email/', ResendEmailVerificationView.as_view(), name='account_email_verification_sent_resent'),
 
     # reset password
     path('dj-rest-auth/password/reset/', PasswordResetView.as_view(), name='reset_password'), # A conserver ?
-    path('dj-rest-auth/password/reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name = 'password_reset_confirm'),
+    re_path('dj-rest-auth/password/reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name = 'password_reset_confirm'),
 
     # change password
     path('dj-rest-auth/password/change/', PasswordChangeView.as_view(), name='change_password'),
