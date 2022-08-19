@@ -70,7 +70,7 @@ urlpatterns = [
 
     # reset password
     path('dj-rest-auth/password/reset/', PasswordResetView.as_view(), name='reset_password'), # A conserver ?
-    re_path('dj-rest-auth/password/reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name = 'password_reset_confirm'),
+    path('dj-rest-auth/password/reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name = 'password_reset_confirm'),
 
     # change password
     path('dj-rest-auth/password/change/', PasswordChangeView.as_view(), name='change_password'),
