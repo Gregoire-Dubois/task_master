@@ -32,5 +32,3 @@ Le Swagger :
 La liste des tâches :
 
 <img width="1437" alt="Capture d’écran 2023-05-10 à 08 06 54" src="https://github.com/Gregoire-Dubois/task_master/assets/65712692/f99a572d-1a05-406c-9c1e-3c6b083fbb7f">
-
-![image](https://github.com/Gregoire-Dubois/task_master/assets/65712692/1903149c-5a8c-4af6-b8ca-47fdd9d3486d)
