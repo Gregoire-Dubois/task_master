@@ -21,4 +21,16 @@ Cette application prévoit également :
 
 Enfin, un swagger a été intégré. 
 
+la page d'accueil :
+
+<img width="1430" alt="Capture d’écran 2023-05-10 à 08 06 30" src="https://github.com/Gregoire-Dubois/task_master/assets/65712692/94b97064-3399-4497-8ac9-d96c736e437e">
+
+Le Swagger :
+
+<img width="1436" alt="Capture d’écran 2023-05-10 à 08 07 53" src="https://github.com/Gregoire-Dubois/task_master/assets/65712692/97dc4c32-0c9e-471e-b9b9-6e4b27bd6af4">
+
+La liste des tâches :
+
+<img width="1437" alt="Capture d’écran 2023-05-10 à 08 06 54" src="https://github.com/Gregoire-Dubois/task_master/assets/65712692/f99a572d-1a05-406c-9c1e-3c6b083fbb7f">
+
 ![image](https://github.com/Gregoire-Dubois/task_master/assets/65712692/1903149c-5a8c-4af6-b8ca-47fdd9d3486d)
